@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import AssetPlaceholder from "@/components/AssetPlaceholder";
+import CaseCover from "@/components/CaseCover";
+import CaseGallery from "@/components/CaseGallery";
+import CaseMosaic from "@/components/CaseMosaic";
 import CaseIndexNav from "@/components/CaseIndexNav";
+import ProcessTimeline from "@/components/ProcessTimeline";
+import SolutionCards from "@/components/SolutionCards";
+import { LightboxProvider } from "@/components/Lightbox";
 import { CASE_STUDIES, getAdjacentCases, getCaseBySlug } from "@/lib/case-studies";
 
 export function generateStaticParams() {
@@ -27,125 +32,157 @@ export default async function CaseDetailPage({ params }: PageProps<"/proyectos/[
   if (!caseStudy) notFound();
 
   const { prev, next } = getAdjacentCases(slug);
+  const hasIndex = caseStudy.galleryGroups.length > 0;
 
   return (
-    <article>
-      <AssetPlaceholder label={caseStudy.coverLabel} aspect="21 / 8" className="rounded-none" />
-
-      <div className="mx-auto max-w-6xl px-4">
-        <header className="flex flex-col gap-3 py-10">
-          <span className="card-kicker">{caseStudy.kicker}</span>
-          <h1 className="max-w-3xl">{caseStudy.title}</h1>
-          <div className="mt-2 grid max-w-2xl gap-6 sm:grid-cols-3">
-            {caseStudy.meta.map((m) => (
-              <div key={m.label}>
-                <div className="kicker text-xs">{m.label}</div>
-                <p className="mt-1 text-sm">{m.value}</p>
-              </div>
-            ))}
-          </div>
-        </header>
-
-        <hr className="hr" />
-
-        <div className="flex items-start gap-8 py-12">
-          <CaseIndexNav />
-
-          <div className="flex flex-1 flex-col gap-16">
-            <section id="problema" className="flex flex-col gap-3 scroll-mt-8">
-              <span className="card-kicker">01 · Problema</span>
-              {caseStudy.problema.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </section>
-
-            <section id="rol-equipo" className="flex flex-col gap-3 scroll-mt-8">
-              <span className="card-kicker">02 · Rol y equipo</span>
-              <div className="grid gap-4 sm:grid-cols-3">
-                {caseStudy.rolYEquipo.map((card) => (
-                  <div key={card.title} className="card">
-                    <div className="kicker text-xs">{card.title}</div>
-                    {card.items.map((item, i) => (
-                      <p key={i} className="card-body">
-                        {item}
-                      </p>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section id="proceso" className="flex flex-col gap-4 scroll-mt-8">
-              <span className="card-kicker">Proceso · decisiones clave</span>
-              {caseStudy.procesoIntro && <p>{caseStudy.procesoIntro}</p>}
-              <div className="grid gap-4 sm:grid-cols-2">
-                {caseStudy.procesoCards.map((card) => (
-                  <div key={card.title} className="card">
-                    <div className="card-title">{card.title}</div>
-                    {card.screenshotLabel && (
-                      <AssetPlaceholder label={card.screenshotLabel} aspect="16 / 9" />
-                    )}
-                    <ul className="flex list-none flex-col gap-2 text-sm">
-                      {card.items.map((item, i) => (
-                        <li key={i}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section id="resultado" className="flex flex-col gap-3 scroll-mt-8">
-              <span className="card-kicker">03 · Resultado</span>
-              <div className="grid gap-4 sm:grid-cols-3">
-                {caseStudy.resultado.stats.map((stat) => (
-                  <div key={stat.label}>
-                    <div className="card-title text-2xl text-accent">{stat.value}</div>
-                    <p className="text-sm opacity-80">{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-              <ul className="flex list-none flex-col gap-2">
-                {caseStudy.resultado.items.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            </section>
-
-            <section id="reflexion" className="flex flex-col gap-3 scroll-mt-8">
-              <span className="card-kicker">04 · Reflexión</span>
-              {caseStudy.reflexion.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </section>
-          </div>
+    <LightboxProvider>
+      <article>
+        <div className="mx-auto max-w-6xl overflow-visible px-4 pt-8">
+          <CaseCover cover={caseStudy.cover} />
         </div>
 
-        <section id="galeria" className="flex flex-col gap-3 py-8 scroll-mt-8">
-          <span className="kicker">Galería de pantallas — scroll horizontal</span>
-          <div className="flex gap-4 overflow-x-auto pb-4">
-            {caseStudy.galeria.map((label) => (
-              <AssetPlaceholder
-                key={label}
-                label={label}
-                aspect="9 / 16"
-                className="h-[260px] w-[150px] flex-none"
-              />
-            ))}
+        <div className="mx-auto max-w-6xl px-4">
+          <header className="flex flex-col gap-4 py-10">
+            <div className="flex items-center gap-3">
+              <span className="tag tag-outline">{caseStudy.tagLabel}</span>
+              <span className="text-[13px] text-neutral-300">{caseStudy.sub}</span>
+            </div>
+            <h1 className="max-w-3xl">{caseStudy.title}</h1>
+            <p className="max-w-[440px] text-base text-neutral-200">{caseStudy.lead}</p>
+            <div className="mt-2 grid max-w-2xl grid-cols-3 gap-6 border-t border-divider pt-6">
+              {caseStudy.meta.map((m) => (
+                <div key={m.label} className="flex flex-col gap-1 text-[13px]">
+                  <span className="kicker text-xs">{m.label}</span>
+                  {m.lines.map((line, i) => (
+                    <span key={i}>{line}</span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </header>
+
+          <hr className="hr" />
+
+          <div className="flex items-start gap-8 py-12">
+            {hasIndex && <CaseIndexNav />}
+
+            <div className="flex flex-1 flex-col gap-16">
+              <section id="problema" className="flex flex-col gap-3 scroll-mt-8">
+                <span className="card-kicker">01 · Problema</span>
+                {caseStudy.problema.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </section>
+
+              <section id="rol-equipo" className="flex flex-col gap-3 scroll-mt-8">
+                <span className="card-kicker">02 · Rol y equipo</span>
+                <div className="grid gap-4 sm:grid-cols-3">
+                  {caseStudy.rolYEquipo.map((card) => (
+                    <div key={card.title} className="card">
+                      <div className="kicker text-xs">{card.title}</div>
+                      {card.items.map((item, i) => (
+                        <p key={i} className="card-body">
+                          {item}
+                        </p>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <section id="proceso" className="flex flex-col gap-4 scroll-mt-8">
+                <span className="card-kicker">Proceso · decisiones clave</span>
+                {caseStudy.procesoIntro.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+
+                {caseStudy.minijuegos && (
+                  <>
+                    <span className="card-kicker mt-2">Los 3 minijuegos</span>
+                    <div className="grid gap-6 sm:grid-cols-3">
+                      {caseStudy.minijuegos.map((game) => (
+                        <div key={game.title} className="flex flex-col gap-2">
+                          <video
+                            src={game.video.src}
+                            aria-label={game.video.alt}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            preload="metadata"
+                            className="aspect-video w-full rounded-md object-cover shadow-md"
+                          />
+                          <div className="card-title">{game.title}</div>
+                          <p className="text-xs opacity-80">{game.body}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+
+                <ProcessTimeline steps={caseStudy.processSteps} />
+
+                {(caseStudy.solutionLead || caseStudy.solutionCards.length > 0) && (
+                  <>
+                    <span className="card-kicker mt-4">La solución</span>
+                    {caseStudy.solutionLead && <p>{caseStudy.solutionLead}</p>}
+                    {caseStudy.mosaicImages && (
+                      <CaseMosaic images={caseStudy.mosaicImages} label={`Pantallas de ${caseStudy.title}`} />
+                    )}
+                    <SolutionCards cards={caseStudy.solutionCards} />
+                  </>
+                )}
+              </section>
+
+              {caseStudy.resultado.stats.length > 0 || caseStudy.resultado.items.length > 0 ? (
+                <section id="resultado" className="flex flex-col gap-3 scroll-mt-8">
+                  <span className="card-kicker">03 · Resultado</span>
+                  {caseStudy.resultado.stats.length > 0 && (
+                    <div className="grid gap-4 sm:grid-cols-3">
+                      {caseStudy.resultado.stats.map((stat) => (
+                        <div key={stat.label}>
+                          <div className="card-title text-2xl text-accent">{stat.value}</div>
+                          <p className="text-sm opacity-80">{stat.label}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <ul className="flex list-none flex-col gap-2">
+                    {caseStudy.resultado.items.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null}
+
+              <section id="reflexion" className="flex flex-col gap-3 scroll-mt-8">
+                <span className="card-kicker">04 · Reflexión</span>
+                {caseStudy.reflexion.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </section>
+            </div>
           </div>
-        </section>
 
-        <hr className="hr" />
+          {hasIndex && (
+            <section id="galeria" className="flex flex-col gap-3 py-8 scroll-mt-8">
+              <span className="kicker">Galería</span>
+              <CaseGallery groups={caseStudy.galleryGroups} />
+            </section>
+          )}
 
-        <footer className="flex flex-col gap-4 py-10 sm:flex-row sm:justify-between">
-          <Link href={prev ? `/proyectos/${prev.slug}` : "/proyectos"} className="text-sm">
-            ← {prev ? `${prev.kicker.split(" · ")[0]} · ${prev.title}` : "Índice de proyectos"}
-          </Link>
-          <Link href={next ? `/proyectos/${next.slug}` : "/proyectos"} className="text-sm">
-            {next ? `${next.kicker.split(" · ")[0]} · ${next.title}` : "Índice de proyectos"} →
-          </Link>
-        </footer>
-      </div>
-    </article>
+          <hr className="hr" />
+
+          <footer className="flex flex-col gap-4 py-10 sm:flex-row sm:justify-between">
+            <Link href={prev ? `/proyectos/${prev.slug}` : "/proyectos"} className="text-sm">
+              ← {prev ? `${prev.tagLabel} · ${prev.title}` : "Índice de proyectos"}
+            </Link>
+            <Link href={next ? `/proyectos/${next.slug}` : "/proyectos"} className="text-sm">
+              {next ? `${next.tagLabel} · ${next.title}` : "Índice de proyectos"} →
+            </Link>
+          </footer>
+        </div>
+      </article>
+    </LightboxProvider>
   );
 }

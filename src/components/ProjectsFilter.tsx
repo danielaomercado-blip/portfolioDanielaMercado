@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import AssetPlaceholder from "@/components/AssetPlaceholder";
 import { CASE_STUDIES, type CaseCategory } from "@/lib/case-studies";
 import { CATEGORIES } from "@/lib/site-copy";
 
@@ -34,13 +34,17 @@ export default function ProjectsFilter() {
 
       <div className="flex flex-col">
         <hr className="hr" />
-        {filtered.map((c) => (
+        {filtered.map((c) => {
+          const thumb = "web" in c.homeImage ? c.homeImage.web : c.homeImage;
+          return (
           <div key={c.slug}>
             <Link
               href={`/proyectos/${c.slug}`}
               className="flex items-center gap-4 py-4 no-underline"
             >
-              <AssetPlaceholder label="img" aspect="4 / 3" className="w-16 flex-none" />
+              <div className="relative h-12 w-16 flex-none overflow-hidden rounded-sm bg-bg">
+                <Image src={thumb.src} alt="" fill className="object-cover" sizes="64px" />
+              </div>
               <div className="flex-1">
                 <div className="kicker text-xs">
                   {c.cardKicker} · {c.indexLabel.split(" · ")[1]}
@@ -51,7 +55,8 @@ export default function ProjectsFilter() {
             </Link>
             <hr className="hr" />
           </div>
-        ))}
+          );
+        })}
         {filtered.length === 0 && (
           <p className="py-8 text-sm text-muted">No hay casos en esta categoría todavía.</p>
         )}

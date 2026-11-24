@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AssetPlaceholder from "@/components/AssetPlaceholder";
 import FadeIn from "@/components/FadeIn";
+import { HomeFeaturedCard, HomeGridCard } from "@/components/HomeCaseCard";
 import { CASE_STUDIES } from "@/lib/case-studies";
 import { CONTACT_INFO, CV_FILE_HREF } from "@/lib/constants";
 import { HOME_COPY } from "@/lib/site-copy";
@@ -61,26 +62,13 @@ export default function Home() {
         </FadeIn>
 
         <FadeIn>
-          <Link
-            href={`/proyectos/${featured.slug}`}
-            className="card elev-sm block gap-4 no-underline hover:elev-md"
-          >
-            <AssetPlaceholder label={featured.coverLabel} aspect="21 / 9" />
-            <div className="card-kicker">{featured.cardKicker}</div>
-            <div className="card-title text-xl">{featured.title}</div>
-            <p className="card-body">{featured.summary}</p>
-          </Link>
+          <HomeFeaturedCard c={featured} />
         </FadeIn>
 
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {rest.map((c, i) => (
             <FadeIn key={c.slug} delay={0.05 * (i + 1)}>
-              <Link href={`/proyectos/${c.slug}`} className="card elev-sm h-full no-underline hover:elev-md">
-                <AssetPlaceholder label="imagen" aspect="4 / 3" />
-                <div className="card-kicker">{c.cardKicker}</div>
-                <div className="card-title">{c.title}</div>
-                <p className="card-body">{c.summary}</p>
-              </Link>
+              <HomeGridCard c={c} />
             </FadeIn>
           ))}
         </div>

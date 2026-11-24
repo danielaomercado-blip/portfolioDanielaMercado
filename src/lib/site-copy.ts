@@ -9,7 +9,7 @@ export const HOME_COPY = {
   // El HTML fuente solo confirma dos logos por nombre (Moonflow, PAGOS360);
   // el tercer slot queda como placeholder pendiente.
   clients: ["Moonflow", "PAGOS360", null] as (string | null)[],
-  selectedCasesKicker: "4 casos · del más reciente al primero",
+  selectedCasesKicker: "5 casos · del más reciente al primero",
   selectedCasesTitle: "Casos seleccionados",
   howIWorkTitle: "Cómo trabajo",
   // El HTML fuente solo trae los títulos de estos 3 pasos, sin copy de cuerpo.
@@ -43,7 +43,7 @@ export const CONTACTO_COPY = {
 
 export const PROYECTOS_COPY = {
   kicker: "Proyectos",
-  title: "4 casos, mismo recorrido",
+  title: "5 casos, mismo recorrido",
 };
 
 export const CATEGORIES = ["Todos", "Mobile", "B2B SaaS", "Fintech"] as const;
