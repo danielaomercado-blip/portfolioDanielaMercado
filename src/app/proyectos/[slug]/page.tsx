@@ -37,27 +37,28 @@ export default async function CaseDetailPage({ params }: PageProps<"/proyectos/[
   return (
     <LightboxProvider>
       <article>
-        <div className="mx-auto max-w-6xl overflow-visible px-4 pt-8">
-          <CaseCover cover={caseStudy.cover} />
-        </div>
-
         <div className="mx-auto max-w-6xl px-4">
-          <header className="flex flex-col gap-4 py-10">
-            <div className="flex items-center gap-3">
-              <span className="tag tag-outline">{caseStudy.tagLabel}</span>
-              <span className="text-[13px] text-neutral-300">{caseStudy.sub}</span>
+          <header className="grid items-center gap-8 py-10 lg:grid-cols-[5fr_6fr]">
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-3">
+                <span className="tag tag-outline">{caseStudy.tagLabel}</span>
+                <span className="text-[13px] text-neutral-300">{caseStudy.sub}</span>
+              </div>
+              <h1>{caseStudy.title}</h1>
+              <p className="max-w-[440px] text-base text-neutral-200">{caseStudy.lead}</p>
+              <div className="mt-2 grid grid-cols-3 gap-6 border-t border-divider pt-6">
+                {caseStudy.meta.map((m) => (
+                  <div key={m.label} className="flex flex-col gap-1 text-[13px]">
+                    <span className="kicker text-xs">{m.label}</span>
+                    {m.lines.map((line, i) => (
+                      <span key={i}>{line}</span>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
-            <h1 className="max-w-3xl">{caseStudy.title}</h1>
-            <p className="max-w-[440px] text-base text-neutral-200">{caseStudy.lead}</p>
-            <div className="mt-2 grid max-w-2xl grid-cols-3 gap-6 border-t border-divider pt-6">
-              {caseStudy.meta.map((m) => (
-                <div key={m.label} className="flex flex-col gap-1 text-[13px]">
-                  <span className="kicker text-xs">{m.label}</span>
-                  {m.lines.map((line, i) => (
-                    <span key={i}>{line}</span>
-                  ))}
-                </div>
-              ))}
+            <div className="overflow-hidden">
+              <CaseCover cover={caseStudy.cover} />
             </div>
           </header>
 
