@@ -99,17 +99,14 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
               )}
               <motion.div
                 layoutId={active.src}
-                className="relative max-h-[72vh] overflow-hidden rounded-xl shadow-lg"
+                className="overflow-hidden rounded-xl shadow-lg"
                 transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element -- sin width/height para que el navegador use la proporción real de cada imagen */}
+                <img
                   src={active.src}
                   alt={active.alt}
-                  width={1600}
-                  height={1600}
-                  className="block max-h-[72vh] w-auto rounded-xl"
-                  style={{ height: "auto" }}
-                  sizes="90vw"
+                  className="block max-h-[72vh] max-w-[90vw] rounded-xl"
                 />
               </motion.div>
             </div>
