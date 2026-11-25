@@ -26,10 +26,13 @@ export type CaseCover =
       kind: "frame";
       bar: string;
       web: ImageRef;
+      /** true = captura plana, necesita recorte + sombra propios. false = ya es un mockup de celular con su propio marco. */
+      phonesFramed?: boolean;
       phones: { image: ImageRef; className: string }[];
     }
   | {
       kind: "phones-only";
+      phonesFramed?: boolean;
       phones: { image: ImageRef; className: string }[];
     }
   | {
@@ -462,10 +465,11 @@ export const CASE_STUDIES: CaseStudy[] = [
     summary: "Tiempos muertos convertidos en engagement.",
     cover: {
       kind: "phones-only",
+      phonesFramed: true,
       phones: [
-        { image: img("caso-03", "cuit.webp", ""), className: "left-[2%] top-[16%] w-[29%] rounded-[14px]" },
-        { image: img("caso-03", "codigo.webp", ""), className: "left-[68%] top-[20%] w-[29%] rounded-[14px]" },
-        { image: img("caso-03", "desafio-4.webp", ""), className: "left-[33%] top-[4%] w-[33%] rounded-[14px] z-10" },
+        { image: img("caso-03", "cuit.webp", ""), className: "left-[2%] top-[16%] w-[29%]" },
+        { image: img("caso-03", "codigo.webp", ""), className: "left-[68%] top-[20%] w-[29%]" },
+        { image: img("caso-03", "desafio-4.webp", ""), className: "left-[33%] top-[4%] w-[33%] z-10" },
       ],
     },
     homeImage: img("home", "p360-desafios-crop.png", ""),

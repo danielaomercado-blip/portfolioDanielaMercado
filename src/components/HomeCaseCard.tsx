@@ -27,17 +27,14 @@ export function HomeFeaturedCard({ c }: { c: CaseStudy }) {
               />
             </div>
             {image.phones.map((phone, i) => (
-              <div
-                key={i}
-                className={`absolute overflow-hidden rounded-xl shadow-[0_18px_24px_rgba(0,0,0,0.55)] ${phone.className}`}
-              >
+              <div key={i} className={`absolute ${phone.className}`}>
                 <Image
                   src={phone.image.src}
                   alt=""
                   width={300}
                   height={650}
                   className="block w-full"
-                  style={{ height: "auto" }}
+                  style={{ height: "auto", filter: "drop-shadow(0 18px 24px rgba(0,0,0,0.55))" }}
                 />
               </div>
             ))}

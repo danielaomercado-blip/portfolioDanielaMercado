@@ -61,21 +61,34 @@ export default function CaseCover({ cover }: { cover: CaseCoverType }) {
           </Chrome>
         </div>
       )}
-      {cover.phones.map((phone, i) => (
-        <div
-          key={i}
-          className={`absolute overflow-hidden rounded-xl shadow-[0_24px_32px_rgba(0,0,0,0.55)] ${phone.className}`}
-        >
-          <Image
-            src={phone.image.src}
-            alt={phone.image.alt}
-            width={400}
-            height={860}
-            className="block w-full"
-            style={{ height: "auto" }}
-          />
-        </div>
-      ))}
+      {cover.phones.map((phone, i) =>
+        cover.phonesFramed ? (
+          <div
+            key={i}
+            className={`absolute overflow-hidden rounded-[14px] shadow-[0_24px_32px_rgba(0,0,0,0.55)] ${phone.className}`}
+          >
+            <Image
+              src={phone.image.src}
+              alt={phone.image.alt}
+              width={400}
+              height={860}
+              className="block w-full"
+              style={{ height: "auto" }}
+            />
+          </div>
+        ) : (
+          <div key={i} className={`absolute ${phone.className}`}>
+            <Image
+              src={phone.image.src}
+              alt={phone.image.alt}
+              width={400}
+              height={860}
+              className="block w-full"
+              style={{ height: "auto", filter: "drop-shadow(0 24px 32px rgba(0,0,0,0.55))" }}
+            />
+          </div>
+        ),
+      )}
     </div>
   );
 }
