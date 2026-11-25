@@ -1,12 +1,12 @@
-import { Code2, PenTool, Search } from "lucide-react";
 import Link from "next/link";
 import FadeIn from "@/components/FadeIn";
 import { HomeFeaturedCard, HomeGridCard } from "@/components/HomeCaseCard";
+import HowIWorkIcon from "@/components/HowIWorkIcon";
 import { CASE_STUDIES } from "@/lib/case-studies";
 import { CONTACT_INFO, CV_FILE_HREF } from "@/lib/constants";
 import { HOME_COPY } from "@/lib/site-copy";
 
-const HOW_I_WORK_ICONS = [Search, PenTool, Code2];
+const HOW_I_WORK_ICONS = ["search", "pen", "code"] as const;
 
 export default function Home() {
   const [featured, ...rest] = CASE_STUDIES;
@@ -78,10 +78,9 @@ export default function Home() {
         </FadeIn>
         <div className="grid gap-6 sm:grid-cols-3">
           {HOME_COPY.howIWorkSteps.map((step, i) => {
-            const Icon = HOW_I_WORK_ICONS[i];
             return (
               <FadeIn key={step.number} delay={0.05 * i}>
-                <Icon className="text-accent" size={22} strokeWidth={1.75} aria-hidden="true" />
+                <HowIWorkIcon name={HOW_I_WORK_ICONS[i]} />
                 <div className="card-title mt-2">{step.title}</div>
               </FadeIn>
             );
