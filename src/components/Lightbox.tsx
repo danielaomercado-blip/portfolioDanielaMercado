@@ -40,7 +40,7 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
       <AnimatePresence>
         {active && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-start justify-center bg-black/85 px-4 pb-10 pt-14 backdrop-blur-sm sm:pt-20"
+            className="fixed inset-0 z-50 flex items-start justify-center bg-black/85 px-4 pb-10 pt-8 backdrop-blur-sm sm:pt-12"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -65,9 +65,9 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
                     step(-1);
                   }}
                   aria-label="Anterior"
-                  className="fixed left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 sm:left-6"
+                  className="fixed left-2 top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 sm:left-6"
                 >
-                  <ChevronLeft size={24} />
+                  <ChevronLeft size={32} />
                 </button>
                 <button
                   type="button"
@@ -76,34 +76,43 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
                     step(1);
                   }}
                   aria-label="Siguiente"
-                  className="fixed right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 sm:right-6"
+                  className="fixed right-2 top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 sm:right-6"
                 >
-                  <ChevronRight size={24} />
+                  <ChevronRight size={32} />
                 </button>
               </>
             )}
 
-            <motion.div
-              layoutId={active.src}
-              className="relative max-h-[80vh] max-w-[90vw] overflow-hidden rounded-xl bg-neutral-100 p-2 shadow-lg"
-              transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
+            <div
+              className="flex max-w-[90vw] flex-col items-start gap-2"
               onClick={(e) => e.stopPropagation()}
             >
               {active.label && (
-                <span className="absolute left-4 top-4 z-10 font-heading text-xs font-medium text-neutral-900">
+                <motion.span
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="font-heading text-sm text-neutral-100"
+                >
                   {active.label}
-                </span>
+                </motion.span>
               )}
-              <Image
-                src={active.src}
-                alt={active.alt}
-                width={1600}
-                height={1600}
-                className="block max-h-[76vh] w-auto rounded-md"
-                style={{ height: "auto" }}
-                sizes="90vw"
-              />
-            </motion.div>
+              <motion.div
+                layoutId={active.src}
+                className="relative max-h-[72vh] overflow-hidden rounded-xl shadow-lg"
+                transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
+              >
+                <Image
+                  src={active.src}
+                  alt={active.alt}
+                  width={1600}
+                  height={1600}
+                  className="block max-h-[72vh] w-auto rounded-xl"
+                  style={{ height: "auto" }}
+                  sizes="90vw"
+                />
+              </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
