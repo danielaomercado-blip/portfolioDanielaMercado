@@ -74,6 +74,9 @@ export interface GalleryGroup {
   title: string;
   countLabel: string;
   figures: GalleryFigure[];
+  /** Si se define, el lightbox muestra las imágenes de este grupo con esta
+   *  proporción fija (promedio del grupo) en vez de la real de cada una. */
+  lightboxAspect?: string;
 }
 
 export interface CaseStudy {
@@ -284,6 +287,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       {
         title: "Módulo Web · supervisor",
         countLabel: "3 pantallas · deslizá →",
+        lightboxAspect: "16/9",
         figures: [
           { image: img("caso-01", "web-mapa.png", "Mapa en vivo"), caption: "Mapa en vivo", chrome: "Mapa en vivo" },
           {

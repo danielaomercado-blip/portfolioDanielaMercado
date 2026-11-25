@@ -9,6 +9,8 @@ export interface LightboxItem {
   src: string;
   alt: string;
   label?: string;
+  /** Proporción fija compartida por todo el grupo (p. ej. "16/9"), en vez de la real de la imagen. */
+  aspect?: string;
 }
 
 interface LightboxState {
@@ -100,13 +102,18 @@ export function LightboxProvider({ children }: { children: ReactNode }) {
               <motion.div
                 layoutId={active.src}
                 className="overflow-hidden rounded-xl shadow-lg"
+                style={active.aspect ? { aspectRatio: active.aspect, height: "72vh", maxWidth: "90vw" } : undefined}
                 transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element -- sin width/height para que el navegador use la proporción real de cada imagen */}
+                {/* eslint-disable-next-line @next/next/no-img-element -- sin width/height para que el navegador use la proporción real de cada imagen (salvo que el grupo fuerce una proporción común) */}
                 <img
                   src={active.src}
                   alt={active.alt}
-                  className="block max-h-[72vh] max-w-[90vw] rounded-xl"
+                  className={
+                    active.aspect
+                      ? "block h-full w-full rounded-xl object-cover"
+                      : "block max-h-[72vh] max-w-[90vw] rounded-xl"
+                  }
                 />
               </motion.div>
             </div>

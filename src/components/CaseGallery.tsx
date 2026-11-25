@@ -11,6 +11,7 @@ export default function CaseGallery({ groups }: { groups: GalleryGroup[] }) {
           src: f.image.src,
           alt: f.image.alt,
           label: f.caption,
+          aspect: group.lightboxAspect,
         }));
 
         return (
