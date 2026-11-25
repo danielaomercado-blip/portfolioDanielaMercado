@@ -1,5 +1,4 @@
 import Link from "next/link";
-import AssetPlaceholder from "@/components/AssetPlaceholder";
 import FadeIn from "@/components/FadeIn";
 import { HomeFeaturedCard, HomeGridCard } from "@/components/HomeCaseCard";
 import { CASE_STUDIES } from "@/lib/case-studies";
@@ -36,20 +35,13 @@ export default function Home() {
 
       <hr className="hr" />
 
-      {/* Trabajé con */}
-      <section className="flex flex-col items-center gap-6 py-8 sm:flex-row">
-        <span className="kicker flex-none">{HOME_COPY.workedWithLabel}</span>
-        <div className="flex flex-1 flex-wrap items-center gap-6">
-          {HOME_COPY.clients.map((client, i) =>
-            client ? (
-              <span key={client} className="text-sm font-heading font-semibold opacity-80">
-                {client}
-              </span>
-            ) : (
-              <AssetPlaceholder key={`client-${i}`} label="logo" aspect="3 / 1" className="w-28" />
-            ),
-          )}
-        </div>
+      {/* Clientes y proyectos propios */}
+      <section className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 py-8 sm:justify-start">
+        {HOME_COPY.clients.map((client) => (
+          <span key={client} className="text-sm font-heading font-semibold opacity-80">
+            {client}
+          </span>
+        ))}
       </section>
 
       <hr className="hr" />

@@ -5,10 +5,7 @@ export const HOME_COPY = {
     "Combino arquitectura lógica, diseño UX y herramientas de vanguardia con IA para llevar soluciones del research al entorno de producción.",
   primaryCta: "Ver proyectos",
   secondaryCta: "Descargar CV",
-  workedWithLabel: "Trabajé con",
-  // El HTML fuente solo confirma dos logos por nombre (Moonflow, PAGOS360);
-  // el tercer slot queda como placeholder pendiente.
-  clients: ["Moonflow", "PAGOS360", null] as (string | null)[],
+  clients: ["Moonflow", "PAGOS360", "Proyecto propio"],
   selectedCasesKicker: "5 casos · del más reciente al primero",
   selectedCasesTitle: "Casos seleccionados",
   howIWorkTitle: "Cómo trabajo",
